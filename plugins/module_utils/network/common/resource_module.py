@@ -11,7 +11,7 @@ from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.u
 from ansible_collections.ansible.netcommon.plugins.module_utils.network.common.network import (
     get_resource_connection,
 )
-
+import q
 
 class ResourceModule(object):  # pylint: disable=R0902
     """ Base class for Network Resource Modules
@@ -87,6 +87,7 @@ class ResourceModule(object):  # pylint: disable=R0902
         """ addcmd
         """
         command = self._tmplt.render(data, tmplt, negate)
+        q(command)
         if command:
             self.commands.extend(to_list(command))
 
@@ -129,6 +130,10 @@ class ResourceModule(object):  # pylint: disable=R0902
         """ Run through all the parsers and compare
             the want and have dicts
         """
+        if want:
+            q(want)
+            q(have)
+
         if want is None:
             want = self.want
         if have is None:
@@ -142,6 +147,9 @@ class ResourceModule(object):  # pylint: disable=R0902
 
             if isinstance(inw, dict) and inw.get("set") is False and not inh:
                 continue
+            if inw:
+                q(inw)
+                q(inh)
 
             if inw is not None and inw != inh:
                 if isinstance(inw, bool):
@@ -149,6 +157,7 @@ class ResourceModule(object):  # pylint: disable=R0902
                         continue
                     self.addcmd(want, parser, not inw)
                 else:
+                    q("in addcmd")
                     self.addcmd(want, parser, False)
             elif inw is None and inh is not None:
                 if isinstance(inh, bool):
