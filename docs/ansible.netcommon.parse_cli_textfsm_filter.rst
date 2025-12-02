@@ -19,6 +19,7 @@ Synopsis
 --------
 - The network filters also support parsing the output of a CLI command using the TextFSM library. To parse the CLI output with TextFSM use this filter.
 - Using the parameters below - ``data | ansible.netcommon.parse_cli_textfsm(template.yml``)
+- This plugin is deprecated and will be removed in a future release after 2027-02-01, please Use ansible.utils.cli_parse instead.
 
 
 
@@ -101,14 +102,14 @@ Examples
         device_neighbors: "{{ lldp_output.stdout[0] | parse_cli_textfsm('~/ntc-templates/templates/cisco_ios_show_lldp_neighbors.textfsm') }}"
 
     - name: "Debug"
-      ansible.builtindebug:
+      ansible.builtin.debug:
         msg: "{{ device_neighbors }}"
 
     # Task Output
     # -----------
     #
     # TASK [Fetch command output]
-    # ok: [rtr-2]
+    # ok: [rtr-1]
 
     # TASK [Invoke parse_cli_textfsm]
     # ok: [rtr-1]

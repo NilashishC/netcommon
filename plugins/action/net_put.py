@@ -12,7 +12,7 @@ import os
 import uuid
 
 from ansible.errors import AnsibleError
-from ansible.module_utils._text import to_bytes, to_text
+from ansible.module_utils.common.text.converters import to_bytes, to_text
 from ansible.module_utils.connection import Connection, ConnectionError
 from ansible.module_utils.six.moves.urllib.parse import urlsplit
 from ansible.plugins.action import ActionBase
@@ -150,7 +150,7 @@ class ActionModule(ActionBase):
             )
         except ConnectionError as exc:
             error = to_text(exc)
-            if error.endswith("No such file or directory"):
+            if error.endswith("No such file or directory") or "File doesn't exist" in error:
                 if os.path.exists(tmp_source_file):
                     os.remove(tmp_source_file)
                 return True

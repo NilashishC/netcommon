@@ -8,7 +8,8 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 import os
-import unittest
+
+from unittest import TestCase
 
 import pytest
 
@@ -20,7 +21,7 @@ from ansible_collections.ansible.netcommon.plugins.sub_plugins.cli_parser.pyats_
 pyats = pytest.importorskip("pyats")
 
 
-class TestPyatsParser(unittest.TestCase):
+class TestPyatsParser(TestCase):
     _nxos_parsed_output = {
         "platform": {
             "hardware": {
@@ -144,7 +145,7 @@ class TestPyatsParser(unittest.TestCase):
         error = {
             "errors": [
                 "The pyats library return an error for 'show inventory' for 'wrong_os'. "
-                "Error: Could not find parser for show inventory under ('wrong_os',)."
+                "Error: Parser Output is empty."
             ]
         }
         self.assertEqual(result, error)

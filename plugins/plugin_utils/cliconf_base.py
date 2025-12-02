@@ -9,11 +9,11 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from abc import abstractmethod
+from collections.abc import Mapping
 from functools import wraps
 
 from ansible.errors import AnsibleConnectionFailure, AnsibleError
-from ansible.module_utils._text import to_bytes, to_text
-from ansible.module_utils.common._collections_compat import Mapping
+from ansible.module_utils.common.text.converters import to_bytes, to_text
 
 # Needed to satisfy PluginLoader's required_base_class
 from ansible.plugins.cliconf import CliconfBase as CliconfBaseBase
@@ -230,10 +230,10 @@ class CliconfBase(CliconfBaseBase):
             configuration should be  pushed in the running configuration or discarded.
 
         :param replace: If the value is True/False it indicates if running configuration should be completely
-                        replace by candidate configuration. If can also take configuration file path as value,
+                        replace by candidate configuration. It can also take configuration file path as value,
                         the file in this case should be present on the remote host in the mentioned path as a
                         prerequisite.
-        :param comment: Commit comment provided it is supported by remote host
+        :param comment: Commit comment provided it is supported by remote host.
         :return: Returns a json string with contains configuration applied on remote host, the returned
                  response on executing configuration commands and platform relevant data.
                {
